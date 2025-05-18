@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f0f8ff;
+      background: #EEF7FF;
       color: #003366;
       display: flex;
       flex-direction: column;
@@ -78,10 +78,53 @@
         width: 100%;
       }
     }
+    #sdrRow td {
+    background-color: #d4eafa;
+    padding :8px;
+    border : 1px solid #007acc;
+    text-align: center;
+    font-size:14px;
+    coloer:#333;
+    font-weight: bold;
+    }
+   
+   #catalogue {
+   margin-top : 30px;
+   padding:40px;
+   width:100%;
+   text-align:center;
+   overflow-x: auto;
+   
+   }
+   
+   #catalogue li {
+   margin-bottom: 10px;
+   margin-lift: 20px;
+   border: 1px solid #007acc;
+   border-radius: 5px;
+   list-style:none;
+   padding:10px;
+   background-color:#007acc;
+   }
+   
+   #catalogue li a {
+   text-decoration:none;
+   font-waight:bold;
+   color:white;
+ 
+   }
+   #catalogue a:hover {
+   text-decoration:underline;
+   color:#003366;
+   }
+   #catalogue li:hover {
+   background-color:#7AB2D3;
+   cursor: pointer;
+   }
   </style>
 </head>
 <body>
-  <h1>HDPE Pipe Data Sheet</h1>
+  <h1>HDPE PE100 Pipe Data Sheet</h1>
  
 
   <div class="input-group">
@@ -105,6 +148,7 @@
   <div id="error" class="error-message"></div>
 
   <table id="resultTable" style="display:none;">
+  
     <tr><th>Thickness (mm)</th><td id="thickness"></td></tr>
     <tr><th>Inner Diameter (mm)</th><td id="inner_diameter"></td></tr>
     <tr><th>Weight (kg/m)</th><td id="weight"></td></tr>
@@ -194,6 +238,12 @@
     </table>
   </div>
 </section>
+<div id= "catalogue">
+ <ul>
+  <li><a href = "https://www.mediafire.com/file/w2y03ysknwfsh68/2-+HDPE+Al-         Rowad+Catalogue.pdf/file"> HDPE Catalogue</a></li>
+  <li><a href = "https://www.mediafire.com/file/7b9sk1gh71fl3de/Technical+file+14-4-2025.pdf/file">  HDPE Technical File</a></li>
+</div>
+<span style="text-align: center; color: #007acc; text-font:sans-serif;">E . Ahmed Mehesin <span>
 <!-- End of HDPE Properties Section -->
   <script>
   
@@ -328,7 +378,7 @@
       pressureSelect.appendChild(option);
     });
 
-    function showData() {
+   function showData() {
       const dia = parseFloat(diameterSelect.value);
       const pres = parseFloat(pressureSelect.value);
 
@@ -348,6 +398,41 @@
         innerDiameterCell.textContent = result.inner;
         weightCell.textContent = result.weight;
         resultTable.style.display = 'table';
+         // Determine SDR based on pressure
+    let sdr = '';
+    switch (pres) {
+      case 6:
+        sdr = '26';
+        break;
+      case 10:
+        sdr = '17';
+        break;
+      case 16:
+        sdr = '11';
+        break;
+      case 20:
+        sdr = '9';
+        break;
+      default:
+        sdr = 'N/A';
+    }
+
+    // Add SDR row if it doesn't exist, or update it if it does
+    let sdrRow = document.getElementById('sdrRow');
+    if (!sdrRow) {
+      sdrRow = document.createElement('tr');
+      sdrRow.id = 'sdrRow';
+      const labelCell = document.createElement('td');
+      labelCell.textContent = 'SDR';
+      const valueCell = document.createElement('td');
+      valueCell.colSpan = 3; // Adjust colspan based on your table structure
+      valueCell.id = 'sdrValue';
+      sdrRow.appendChild(labelCell);
+      sdrRow.appendChild(valueCell);
+      resultTable.appendChild(sdrRow);
+    }
+
+    document.getElementById('sdrValue').textContent = sdr;
       } else {
         errorDiv.textContent = 'No data found for this combination.';
       }
@@ -363,30 +448,6 @@
       errorDiv.textContent = '';
       resultTable.style.display = 'none';
     });
-  let currentLang = 'en';
-  function toggleLanguage() {
-    const enElements = document.querySelectorAll('.lang-en');
-    const arElements = document.querySelectorAll('.lang-ar');
-    
-    if (currentLang === 'en') {
-      enElements.forEach(el => el.style.display = 'none');
-      arElements.forEach(el => el.style.display = '');
-      currentLang = 'ar';
-    } else {
-      enElements.forEach(el => el.style.display = '');
-      arElements.forEach(el => el.style.display = 'none');
-      currentLang = 'en';
-    }
-
-    // Update button text
-    document.querySelector('button').innerText = (currentLang === 'en') ? 'عربي' : 'English';
-  }
-
-  // Default: Show English only
-  window.onload = () => {
-    document.querySelectorAll('.lang-ar').forEach(el => el.style.display = 'none');
-  };
-  
   
   
 </script>
