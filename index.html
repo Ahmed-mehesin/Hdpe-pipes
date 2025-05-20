@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,6 +101,7 @@
    
    #catalogue li {
    margin-bottom: 10px;
+   margin-lift: 20px;
    border: 1px solid #007acc;
    border-radius: 5px;
    list-style:none;
@@ -120,6 +123,22 @@
    background-color:#7AB2D3;
    cursor: pointer;
    }
+   #pipeImg {
+   max-width: 200px;
+   width: 100%;
+   margin-top:20px;
+   height: auto;
+   border: 1px solid #007acc;
+   border-redius: 10px;
+   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+   }
+   #Box{
+   display: flex;
+   justify-content: center;
+   align-items: flex-right;
+   gap: 20px;
+   
+   }
   </style>
 </head>
 <body>
@@ -128,14 +147,14 @@
 
   <div class="input-group">
     <label>
-      Diameter (mm):
+      OD (mm):
       <select id="diameter">
         <option value="">Select</option>
       </select>
     </label>
 
     <label>
-      Pressure (bar):
+      P (bar):
       <select id="pressure">
         <option value="">Select</option>
       </select>
@@ -145,14 +164,15 @@
   </div>
 
   <div id="error" class="error-message"></div>
-
+ <div id = "Box">
   <table id="resultTable" style="display:none;">
-  
-    <tr><th>Thickness (mm)</th><td id="thickness"></td></tr>
-    <tr><th>Inner Diameter (mm)</th><td id="inner_diameter"></td></tr>
+ 
+    <tr><th>Thickness (S) mm</th><td id="thickness"></td></tr>
+    <tr><th>Inner Diameter (ID) mm</th><td id="inner_diameter"></td></tr>
     <tr><th>Weight (kg/m)</th><td id="weight"></td></tr>
   </table>
-
+  <img id="pipeImg" src="https://i.ibb.co/hxnn3Xqz/Screenshot-2025-05-20-140758.png" style ="display:none;" />
+  </div>
 <!-- Start of HDPE Properties Section -->
 <section id="hdpe-properties-section" style="margin-top: 40px; padding: 20px; background-color: #f0f8ff;">
   <h2 style="text-align: center; color: #007acc;">HDPE Mechanical and Chemical Properties</h2>
@@ -356,6 +376,7 @@
     const pressureSelect = document.getElementById('pressure');
     const errorDiv = document.getElementById('error');
     const resultTable = document.getElementById('resultTable');
+    const pipeImg = document.getElementById('pipeImg');
     const thicknessCell = document.getElementById('thickness');
     const innerDiameterCell = document.getElementById('inner_diameter');
     const weightCell = document.getElementById('weight');
@@ -384,9 +405,11 @@
       // Reset previous results
       errorDiv.textContent = '';
       resultTable.style.display = 'none';
+      pipeImg.style.display = 'block';
 
       if (!dia || !pres) {
         errorDiv.textContent = 'Please select both diameter and pressure.';
+        pipeImg.style.display = 'none';
         return;
       }
 
@@ -441,11 +464,13 @@
     diameterSelect.addEventListener('change', () => {
       errorDiv.textContent = '';
       resultTable.style.display = 'none';
+      pipeImg.style.display = 'none';
     });
 
     pressureSelect.addEventListener('change', () => {
       errorDiv.textContent = '';
       resultTable.style.display = 'none';
+      pipeImg.style.display = 'none';
     });
   
   
